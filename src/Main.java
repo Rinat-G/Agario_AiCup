@@ -45,6 +45,10 @@ class Main {
                 command.put("X", moveEngine.getCurrentX());
                 command.put("Y", moveEngine.getCurrentY());
                 command.put("Debug", "No food");
+                JSONObject spriteObject = new JSONObject();
+                spriteObject.put("Id", mine.getJSONObject(0).getFloat("Id"));
+                spriteObject.put("S", "Test Mesage");
+                command.put("Sprite", spriteObject);
             }
         } else {
             command.put("X", 0);
