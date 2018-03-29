@@ -10,17 +10,16 @@ class Main {
 
     public static void main(String[] args) {
 
-
-
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         String line;
         try {
             line = in.readLine();
             JSONObject config = new JSONObject(line);
-
-             moveEngine = new Move(config);
-
             log.warning(config.toString());
+            new GlobalConfig(config);
+
+            moveEngine = new Move(config);
+
 
             while ((line = in.readLine()) != null && line.length() != 0) {
                 JSONObject parsed = new JSONObject(line);
@@ -45,10 +44,6 @@ class Main {
                 command.put("X", moveEngine.getCurrentX());
                 command.put("Y", moveEngine.getCurrentY());
                 command.put("Debug", "No food");
-                JSONObject spriteObject = new JSONObject();
-                spriteObject.put("Id", mine.getJSONObject(0).getFloat("Id"));
-                spriteObject.put("S", "Test Mesage");
-                command.put("Sprite", spriteObject);
             }
         } else {
             command.put("X", 0);
