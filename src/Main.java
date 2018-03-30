@@ -6,7 +6,7 @@ class Main {
 
 
     private static DebugLogger log = DebugLogger.getInstance();
-    private static Move moveEngine;
+    private static MoveEngine moveEngine;
 
     public static void main(String[] args) {
 
@@ -18,12 +18,14 @@ class Main {
             log.warning(config.toString());
             new GlobalConfig(config);
 
-            moveEngine = new Move(config);
+
+
+            moveEngine = new MoveEngine();
 
 
             while ((line = in.readLine()) != null && line.length() != 0) {
-                JSONObject parsed = new JSONObject(line);
-                JSONObject command = onTick(parsed, config);
+                JSONObject tickState = new JSONObject(line);
+                JSONObject command = onTick(tickState);
                 System.out.println(command.toString());
             }
         } catch (IOException e) {
@@ -31,20 +33,23 @@ class Main {
         }
     }
 
-    public static JSONObject onTick(JSONObject parsed, JSONObject config) {
-        JSONArray mine = parsed.getJSONArray("Mine");
+    public static JSONObject onTick(JSONObject tickState) {
+        JSONArray mine = tickState.getJSONArray("Mine");
         JSONObject command = new JSONObject();
+
         if (mine.length() > 0) {
-            JSONArray objects = parsed.getJSONArray("Objects");
-            JSONObject food = findFood(objects);
-            if (food != null) {
-                command.put("X", food.getInt("X"));
-                command.put("Y", food.getInt("Y"));
-            } else {
-                command.put("X", moveEngine.getCurrentX());
-                command.put("Y", moveEngine.getCurrentY());
-                command.put("Debug", "No food");
-            }
+
+            command = moveEngine.doMove(tickState);
+//            JSONArray objects = parsed.getJSONArray("Objects");
+//            JSONObject food = findFood(objects);
+//            if (food != null) {
+//                command.put("X", food.getInt("X"));
+//                command.put("Y", food.getInt("Y"));
+//            } else {
+//                command.put("X", moveEngine.getCurrentX());
+//                command.put("Y", moveEngine.getCurrentY());
+//                command.put("Debug", "No food");
+//            }
         } else {
             command.put("X", 0);
             command.put("Y", 0);
@@ -54,13 +59,5 @@ class Main {
         return command;
     }
 
-    public static JSONObject findFood(JSONArray objects) {
-        for (int i = 0; i < objects.length(); i++) {
-            JSONObject obj = objects.getJSONObject(i);
-            if (obj.getString("T").equals("F")) {
-                return obj;
-            }
-        }
-        return null;
-    }
+
 }

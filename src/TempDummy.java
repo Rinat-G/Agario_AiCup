@@ -1,4 +1,8 @@
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -14,10 +18,29 @@ public class TempDummy {
 //        fileHandler.setFormatter(new SimpleFormatter());
 //        log.addHandler(fileHandler);
 //
+        DebugLogger log = DebugLogger.getInstance();
 
 
-        System.out.println("Hello");
-        DebugLogger.getInstance().info("hello");
+//        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+//        String line;
+//        try {
+//            line = in.readLine();
+//            JSONObject config = new JSONObject(line);
+//            log.warning(config.toString());
+//            new GlobalConfig(config);
+//
+//            moveEngine = new MoveEngine();
+//
+//
+//            while ((line = in.readLine()) != null && line.length() != 0) {
+//                JSONObject tickState = new JSONObject(line);
+//                JSONObject command = onTick(tickState);
+//                System.out.println(command.toString());
+//            }
+//        } catch (IOException e) {
+//            System.err.println(e);
+//        }
+
 
     }
 }
