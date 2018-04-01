@@ -16,8 +16,7 @@ class Main {
             line = in.readLine();
             JSONObject config = new JSONObject(line);
             log.warning(config.toString());
-            new GlobalConfig(config);
-
+            GlobalConfig.init(config);
 
 
             moveEngine = new MoveEngine();

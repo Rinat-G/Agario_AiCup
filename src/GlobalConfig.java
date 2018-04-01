@@ -1,20 +1,23 @@
 import org.json.JSONObject;
 
 public final class GlobalConfig {
-     private static int GAME_WIDTH;
-     private static int GAME_HEIGHT;
-     private static int GAME_TICKS;
-     private static float FOOD_MASS;
-     private static int MAX_FRAGS_CNT;
-     private static int TICKS_TIL_FUSION;
-     private static float VIRUS_RADIUS;
-     private static float VIRUS_SPLIT_MASS;
-     private static float VISCOSITY;
-     private static float INERTION_FACTOR;
-     private static float SPEED_FACTOR;
+    private static GlobalConfig instance;
+    private static JSONObject gameConfig;
+
+    private int GAME_WIDTH;
+    private int GAME_HEIGHT;
+    private int GAME_TICKS;
+    private float FOOD_MASS;
+    private int MAX_FRAGS_CNT;
+    private int TICKS_TIL_FUSION;
+    private float VIRUS_RADIUS;
+    private float VIRUS_SPLIT_MASS;
+    private float VISCOSITY;
+    private float INERTION_FACTOR;
+    private float SPEED_FACTOR;
 
 
-    GlobalConfig(JSONObject config){
+    private GlobalConfig(JSONObject config) {
         this.GAME_WIDTH = config.getInt("GAME_WIDTH");
         this.GAME_HEIGHT = config.getInt("GAME_HEIGHT");
         this.GAME_TICKS = config.getInt("GAME_TICKS");
@@ -29,91 +32,86 @@ public final class GlobalConfig {
     }
 
 
-    public static int getGameWidth() {
+    public static void init(JSONObject gameConfig) {
+        GlobalConfig.gameConfig = gameConfig;
+
+    }
+
+    public static GlobalConfig getInstance() {
+        if (instance == null) {
+            instance = new GlobalConfig(gameConfig);
+        }
+
+        return instance;
+    }
+
+    public int getGAME_WIDTH() {
         return GAME_WIDTH;
     }
 
-    public static void setGameWidth(int gameWidth) {
-        GAME_WIDTH = gameWidth;
-    }
-
-    public static int getGameHeight() {
+    public int getGAME_HEIGHT() {
         return GAME_HEIGHT;
     }
 
-    public static void setGameHeight(int gameHeight) {
-        GAME_HEIGHT = gameHeight;
-    }
-
-    public static int getGameTicks() {
+    public int getGAME_TICKS() {
         return GAME_TICKS;
     }
 
-    public static void setGameTicks(int gameTicks) {
-        GAME_TICKS = gameTicks;
-    }
-
-    public static float getFoodMass() {
+    public float getFOOD_MASS() {
         return FOOD_MASS;
     }
 
-    public static void setFoodMass(float foodMass) {
-        FOOD_MASS = foodMass;
-    }
-
-    public static int getMaxFragsCnt() {
+    public int getMAX_FRAGS_CNT() {
         return MAX_FRAGS_CNT;
     }
 
-    public static void setMaxFragsCnt(int maxFragsCnt) {
-        MAX_FRAGS_CNT = maxFragsCnt;
-    }
-
-    public static int getTicksTilFusion() {
+    public int getTICKS_TIL_FUSION() {
         return TICKS_TIL_FUSION;
     }
 
-    public static void setTicksTilFusion(int ticksTilFusion) {
-        TICKS_TIL_FUSION = ticksTilFusion;
-    }
-
-    public static float getVirusRadius() {
+    public float getVIRUS_RADIUS() {
         return VIRUS_RADIUS;
     }
 
-    public static void setVirusRadius(float virusRadius) {
-        VIRUS_RADIUS = virusRadius;
-    }
-
-    public static float getVirusSplitMass() {
+    public float getVIRUS_SPLIT_MASS() {
         return VIRUS_SPLIT_MASS;
     }
 
-    public static void setVirusSplitMass(float virusSplitMass) {
-        VIRUS_SPLIT_MASS = virusSplitMass;
-    }
-
-    public static float getVISCOSITY() {
+    public float getVISCOSITY() {
         return VISCOSITY;
     }
 
-    public static void setVISCOSITY(float VISCOSITY) {
-        GlobalConfig.VISCOSITY = VISCOSITY;
-    }
-
-    public static float getInertionFactor() {
+    public float getINERTION_FACTOR() {
         return INERTION_FACTOR;
     }
 
-    public static void setInertionFactor(float inertionFactor) {
-        INERTION_FACTOR = inertionFactor;
-    }
-
-    public static float getSpeedFactor() {
+    public float getSPEED_FACTOR() {
         return SPEED_FACTOR;
     }
 
-    public static void setSpeedFactor(float speedFactor) {
-        SPEED_FACTOR = speedFactor;
+    public String toString() {
+
+
+        return String.format(
+                "GAME_WIDTH %s %n" +
+                        "GAME_HEIGHT %s %n" +
+                        "GAME_TICKS %s %n" +
+                        "FOOD_MASS %s %n" +
+                        "MAX_FRAGS_CNT %s %n" +
+                        "TICKS_TIL_FUSION %s %n" +
+                        "VIRUS_RADIUS %s %n" +
+                        "VIRUS_SPLIT_MASS %s %n" +
+                        "VISCOSITY %s %n" +
+                        "INERTION_FACTOR %s",
+                GAME_WIDTH,
+                GAME_HEIGHT,
+                GAME_TICKS,
+                FOOD_MASS,
+                MAX_FRAGS_CNT,
+                TICKS_TIL_FUSION,
+                VIRUS_RADIUS,
+                VIRUS_SPLIT_MASS,
+                VISCOSITY,
+                INERTION_FACTOR);
     }
 }

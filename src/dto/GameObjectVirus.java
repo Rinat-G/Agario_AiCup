@@ -11,4 +11,6 @@ public class GameObjectVirus extends GameObject {
         this.id = id;
         this.mass = mass;
     }
+
+    
 }

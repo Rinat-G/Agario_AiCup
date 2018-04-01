@@ -13,6 +13,9 @@ public class TickState {
 
         JSONArray mineJSONArray = parsedTickState.getJSONArray("Mine");
         JSONArray objects = parsedTickState.getJSONArray("Objects");
+        mineList = new ArrayList<>();
+        gameObjectList = new ArrayList<>();
+
 
         for (int i = 0; i < mineJSONArray.length(); i++) {
             JSONObject mineJSONObject = mineJSONArray.getJSONObject(i);
@@ -73,5 +76,11 @@ public class TickState {
 
     }
 
+    public ArrayList<Mine> getMineList() {
+        return mineList;
+    }
 
+    public ArrayList<GameObject> getGameObjectList() {
+        return gameObjectList;
+    }
 }
