@@ -3,10 +3,11 @@ package dto;
 import java.lang.reflect.Field;
 
 public abstract class GameObject {
-    enum Type {Food, Ejection, Virus, Player}
+    enum Type {Food, Ejection, Virus, Player, Mine}
 
-    final float x;
-    final float y;
+    private final float x;
+    private final float y;
+    private final Type type;
 
     GameObject(float x, float y, Type type) {
         this.x = x;
@@ -14,7 +15,7 @@ public abstract class GameObject {
         this.type = type;
     }
 
-    private final Type type;
+
 
     public float getX() {
         return x;
@@ -33,18 +34,9 @@ public abstract class GameObject {
         StringBuilder sb = new StringBuilder();
 
         Class<? extends GameObject> clazz = this.getClass();
-        Class<?> clazzSuper = super.getClass();
-        Field[] fieldsSuper = clazzSuper.getDeclaredFields();
+
         Field[] fields = clazz.getDeclaredFields();
         try {
-
-            for (Field fieldSuper :
-                    fieldsSuper) {
-
-                sb.append(fieldSuper.getName()).append(fieldSuper.get(this)).append("\n");
-
-            }
-
 
 
             for (Field field :

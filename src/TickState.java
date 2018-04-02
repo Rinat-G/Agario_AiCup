@@ -6,20 +6,29 @@ import java.util.ArrayList;
 
 public class TickState {
 
-    private ArrayList<Mine> mineList;
-    private ArrayList<GameObject> gameObjectList;
+    private ArrayList<GameObjectMine> mineList;
+//    private ArrayList<GameObject> gameObjectList;
+
+    private ArrayList<GameObjectFood> gameObjectFoodList;
+    private ArrayList<GameObjectEjection> gameObjectEjectionList;
+    private ArrayList<GameObjectVirus> gameObjectVirusList;
+    private ArrayList<GameObjectPlayer> gameObjectPlayerList;
 
     public TickState(JSONObject parsedTickState) {
 
         JSONArray mineJSONArray = parsedTickState.getJSONArray("Mine");
         JSONArray objects = parsedTickState.getJSONArray("Objects");
         mineList = new ArrayList<>();
-        gameObjectList = new ArrayList<>();
+//        gameObjectList = new ArrayList<>();
+        gameObjectFoodList = new ArrayList<>();
+        gameObjectEjectionList = new ArrayList<>();
+        gameObjectVirusList = new ArrayList<>();
+        gameObjectPlayerList = new ArrayList<>();
 
 
         for (int i = 0; i < mineJSONArray.length(); i++) {
             JSONObject mineJSONObject = mineJSONArray.getJSONObject(i);
-            Mine mineDTO = new Mine(
+            GameObjectMine mineDTO = new GameObjectMine(
                     mineJSONObject.getString("Id"),
                     mineJSONObject.getFloat("X"),
                     mineJSONObject.getFloat("Y"),
@@ -34,53 +43,73 @@ public class TickState {
 
         for (int i = 0; i < objects.length(); i++) {
             JSONObject objectJSONObject = objects.getJSONObject(i);
-            GameObject gameObjectDTO = null;
 
             switch (objectJSONObject.getString("T")) {
                 case "F":
-                    gameObjectDTO = new GameObjectFood(
-                            objectJSONObject.getFloat("X"),
-                            objectJSONObject.getFloat("Y")
+                    gameObjectFoodList.add(
+                            new GameObjectFood(
+                                    objectJSONObject.getFloat("X"),
+                                    objectJSONObject.getFloat("Y")
+                            )
                     );
                     break;
                 case "E":
-                    gameObjectDTO = new GameObjectEjection(
-                            objectJSONObject.getFloat("X"),
-                            objectJSONObject.getFloat("Y")
+                    gameObjectEjectionList.add(
+                            new GameObjectEjection(
+                                    objectJSONObject.getFloat("X"),
+                                    objectJSONObject.getFloat("Y")
+                            )
                     );
                     break;
                 case "V":
-                    gameObjectDTO = new GameObjectVirus(
-                            objectJSONObject.getFloat("X"),
-                            objectJSONObject.getFloat("Y"),
-                            objectJSONObject.getString("Id"),
-                            objectJSONObject.getFloat("M")
+                    gameObjectVirusList.add(
+                            new GameObjectVirus(
+                                    objectJSONObject.getFloat("X"),
+                                    objectJSONObject.getFloat("Y"),
+                                    objectJSONObject.getString("Id"),
+                                    objectJSONObject.getFloat("M")
+                            )
                     );
                     break;
                 case "P":
-                    gameObjectDTO = new GameObjectPlayer(
-                            objectJSONObject.getFloat("X"),
-                            objectJSONObject.getFloat("Y"),
-                            objectJSONObject.getString("Id"),
-                            objectJSONObject.getFloat("M"),
-                            objectJSONObject.getFloat("R")
+                    gameObjectPlayerList.add(
+                            new GameObjectPlayer(
+                                    objectJSONObject.getFloat("X"),
+                                    objectJSONObject.getFloat("Y"),
+                                    objectJSONObject.getString("Id"),
+                                    objectJSONObject.getFloat("M"),
+                                    objectJSONObject.getFloat("R")
 
+                            )
                     );
                     break;
             }
 
-            gameObjectList.add(i,gameObjectDTO);
+//            gameObjectList.add(i, gameObjectDTO);
 
         }
 
 
     }
 
-    public ArrayList<Mine> getMineList() {
+    public ArrayList<GameObjectMine> getMineList() {
         return mineList;
     }
 
-    public ArrayList<GameObject> getGameObjectList() {
-        return gameObjectList;
+
+    public ArrayList<GameObjectFood> getGameObjectFoodList() {
+        return gameObjectFoodList;
+    }
+
+    public ArrayList<GameObjectEjection> getGameObjectEjectionList() {
+        return gameObjectEjectionList;
+    }
+
+    public ArrayList<GameObjectVirus> getGameObjectVirusList() {
+        return gameObjectVirusList;
+    }
+
+    public ArrayList<GameObjectPlayer> getGameObjectPlayerList() {
+        return gameObjectPlayerList;
     }
 }

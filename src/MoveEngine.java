@@ -1,6 +1,11 @@
-import org.json.JSONArray;
+import dto.GameObject;
+import dto.GameObjectFood;
+import dto.GameObjectMine;
+import helper.Geometry;
+import helper.MineHelper;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MoveEngine {
@@ -26,54 +31,49 @@ public class MoveEngine {
         return currentRandomY;
     }
 
-    JSONObject doMove(JSONObject tickState) {
 
-        JSONObject command = new JSONObject();
-        JSONArray mine = tickState.getJSONArray("Mine");
-        JSONArray objects = tickState.getJSONArray("Objects");
-        JSONObject food = findFood(objects);
+    public JSONObject doMove(TickState tickState, JSONObject command) {
 
-        if (food != null) {
-            command = toFood(food, command);
+        ArrayList<GameObjectMine> mineList = tickState.getMineList();
+        ArrayList<GameObjectFood> foodList = tickState.getGameObjectFoodList();
+
+        if (foodList.size() > 0) {
+            command = toNearestFood(foodList, mineList, command);
             return command;
+        } else {
+            command = toRandomPoint(mineList, command);
         }
-        command = toRandomPoint(mine, command);
-
 
         return command;
 
     }
 
 
-    private JSONObject findFood(JSONArray objects) {
-        for (int i = 0; i < objects.length(); i++) {
-            JSONObject obj = objects.getJSONObject(i);
-            if (obj.getString("T").equals("F")) {
-                return obj;
-            }
+    private JSONObject toNearestFood(ArrayList<GameObjectFood> foodArrayList, ArrayList<GameObjectMine> mineArrayList, JSONObject command) {
+        GameObjectMine biggerMine = MineHelper.getBiggest(mineArrayList);
+        GameObject nearestFood = Geometry.nearestTo(foodArrayList, biggerMine);
+
+        command.put("X", nearestFood.getX());
+        command.put("Y", nearestFood.getY());
+
+        return command;
+
+    }
+
+    private JSONObject toRandomPoint(ArrayList<GameObjectMine> mine, JSONObject command) {
+        if (MineHelper.isInRadius(
+                MineHelper.getBiggest(mine), getCurrentRandomX(), getCurrentRandomY())) {
+            currentRandomX = 0;
+            currentRandomY = 0;
         }
-        return null;
-    }
 
-    private JSONObject toRandomPoint(JSONArray mine, JSONObject command) {
 
-//        mine.
-//        for (JSONObject mineFrag :
-//                mine) {
-//
-//        }
-        
+        command.put("X", getCurrentRandomX());
+        command.put("Y", getCurrentRandomY());
+
 
         return command;
     }
 
-
-    private JSONObject toFood(JSONObject food, JSONObject command) {
-
-        command.put("X", food.getInt("X"));
-        command.put("Y", food.getInt("Y"));
-        return command;
-
-    }
 
 }

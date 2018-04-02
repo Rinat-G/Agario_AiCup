@@ -21,10 +21,11 @@ class Main {
 
             moveEngine = new MoveEngine();
 
-
+            int tick = 0;
             while ((line = in.readLine()) != null && line.length() != 0) {
-                JSONObject tickState = new JSONObject(line);
-                JSONObject command = onTick(tickState);
+                log.info("TICK = " + ++tick);
+                JSONObject tickStateJSON = new JSONObject(line);
+                JSONObject command = onTick(tickStateJSON);
                 System.out.println(command.toString());
             }
         } catch (IOException e) {
@@ -32,27 +33,20 @@ class Main {
         }
     }
 
-    public static JSONObject onTick(JSONObject tickState) {
-        JSONArray mine = tickState.getJSONArray("Mine");
+    public static JSONObject onTick(JSONObject tickStateJSON) {
+        TickState tickState = new TickState(tickStateJSON);
         JSONObject command = new JSONObject();
 
-        if (mine.length() > 0) {
+        if (tickState.getMineList().size() > 0) {
 
-            command = moveEngine.doMove(tickState);
-//            JSONArray objects = parsed.getJSONArray("Objects");
-//            JSONObject food = findFood(objects);
-//            if (food != null) {
-//                command.put("X", food.getInt("X"));
-//                command.put("Y", food.getInt("Y"));
-//            } else {
-//                command.put("X", moveEngine.getCurrentX());
-//                command.put("Y", moveEngine.getCurrentY());
-//                command.put("Debug", "No food");
-//            }
+            command = moveEngine.doMove(tickState, command);
+
+
         } else {
             command.put("X", 0);
             command.put("Y", 0);
             command.put("Debug", "Died");
+            log.warning("getMineList().size() <= 0. DIED.");
         }
         log.info(command.toString());
         return command;

@@ -1,9 +1,8 @@
+package dto;
 
-public class Mine {
+public class GameObjectMine extends GameObject {
 
     private String id;
-    private float x;
-    private float y;
     private float radius;
     private float mass;
     private float sx;
@@ -11,10 +10,9 @@ public class Mine {
     //добавить TTF;
 
 
-    public Mine(String id, float x, float y, float radius, float mass, float sx, float sy) {
+    public GameObjectMine(String id, float x, float y, float radius, float mass, float sx, float sy) {
+        super(x,y,Type.Mine);
         this.id = id;
-        this.x = x;
-        this.y = y;
         this.radius = radius;
         this.mass = mass;
         this.sx = sx;
@@ -25,13 +23,6 @@ public class Mine {
         return id;
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
 
     public float getRadius() {
         return radius;

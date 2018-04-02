@@ -30,7 +30,7 @@ class Main_back {
     }
 
     public static JSONObject onTick(JSONObject parsed, JSONObject config) {
-        JSONArray mine = parsed.getJSONArray("Mine");
+        JSONArray mine = parsed.getJSONArray("dto.GameObjectMine");
         JSONObject command = new JSONObject();
         if (mine.length() > 0) {
             JSONArray objects = parsed.getJSONArray("Objects");

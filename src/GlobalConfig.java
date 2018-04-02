@@ -1,6 +1,7 @@
 import org.json.JSONObject;
 
 public final class GlobalConfig {
+    //singleton
     private static GlobalConfig instance;
     private static JSONObject gameConfig;
 
@@ -103,15 +104,15 @@ public final class GlobalConfig {
                         "VIRUS_SPLIT_MASS %s %n" +
                         "VISCOSITY %s %n" +
                         "INERTION_FACTOR %s",
-                GAME_WIDTH,
-                GAME_HEIGHT,
-                GAME_TICKS,
-                FOOD_MASS,
-                MAX_FRAGS_CNT,
-                TICKS_TIL_FUSION,
-                VIRUS_RADIUS,
-                VIRUS_SPLIT_MASS,
-                VISCOSITY,
-                INERTION_FACTOR);
+                this.GAME_WIDTH,
+                this.GAME_HEIGHT,
+                this.GAME_TICKS,
+                this.FOOD_MASS,
+                this.MAX_FRAGS_CNT,
+                this.TICKS_TIL_FUSION,
+                this.VIRUS_RADIUS,
+                this.VIRUS_SPLIT_MASS,
+                this.VISCOSITY,
+                this.INERTION_FACTOR);
     }
 }
