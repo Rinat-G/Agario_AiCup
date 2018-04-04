@@ -28,6 +28,7 @@ class Main {
                 tick++;
                 JSONObject tickStateJSON = new JSONObject(line);
                 JSONObject command = onTick(tickStateJSON, tick);
+                if (tick < 10){command.put("Debug",GlobalConfig.getInstance().toString() );}
                 System.out.println(command.toString());
             }
         } catch (IOException e) {
@@ -42,6 +43,7 @@ class Main {
         if (tickState.getMineList().size() > 0) {
 
             command = moveEngine.doMove(tickState, command);
+
 
 
         } else {
