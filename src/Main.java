@@ -1,11 +1,13 @@
 import java.io.*;
 
+import env.GlobalConfig;
+import env.TickState;
 import org.json.*;
 
 class Main {
 
 
-    private static DebugLogger log = DebugLogger.getInstance();
+//    private static DebugLogger log = DebugLogger.getInstance();
     private static MoveEngine moveEngine;
 
     public static void main(String[] args) {
@@ -15,7 +17,7 @@ class Main {
         try {
             line = in.readLine();
             JSONObject config = new JSONObject(line);
-            log.warning(config.toString());
+//            log.warning(config.toString());
             GlobalConfig.init(config);
 
 
@@ -23,9 +25,9 @@ class Main {
 
             int tick = 0;
             while ((line = in.readLine()) != null && line.length() != 0) {
-                log.info("TICK = " + ++tick);
+                tick++;
                 JSONObject tickStateJSON = new JSONObject(line);
-                JSONObject command = onTick(tickStateJSON);
+                JSONObject command = onTick(tickStateJSON, tick);
                 System.out.println(command.toString());
             }
         } catch (IOException e) {
@@ -33,8 +35,8 @@ class Main {
         }
     }
 
-    public static JSONObject onTick(JSONObject tickStateJSON) {
-        TickState tickState = new TickState(tickStateJSON);
+    public static JSONObject onTick(JSONObject tickStateJSON ,int tickNumber) {
+        TickState tickState = new TickState(tickStateJSON, tickNumber);
         JSONObject command = new JSONObject();
 
         if (tickState.getMineList().size() > 0) {
@@ -46,9 +48,9 @@ class Main {
             command.put("X", 0);
             command.put("Y", 0);
             command.put("Debug", "Died");
-            log.warning("getMineList().size() <= 0. DIED.");
+            //log.warning("getMineList().size() <= 0. DIED.");
         }
-        log.info(command.toString());
+//        log.info(command.toString());
         return command;
     }
 

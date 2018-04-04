@@ -1,8 +1,9 @@
-import dto.GameObject;
-import dto.GameObjectFood;
-import dto.GameObjectMine;
+import dto.*;
+import env.TickState;
+import helper.FoodHelper;
 import helper.Geometry;
 import helper.MineHelper;
+import helper.PlayerHelper;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -36,9 +37,35 @@ public class MoveEngine {
 
         ArrayList<GameObjectMine> mineList = tickState.getMineList();
         ArrayList<GameObjectFood> foodList = tickState.getGameObjectFoodList();
+        ArrayList<GameObjectPlayer> playerList = tickState.getGameObjectPlayerList();
+
+        if (playerList.size() > 0) {
+            GameObjectMine mineBiggest = MineHelper.getBiggest(mineList);
+            GameObjectPlayer playerBiggest = PlayerHelper.getBiggest(playerList);
+
+
+            if (mineBiggest.getMass() > playerBiggest.getMass() * 1.2) {
+                command.put("X", playerBiggest.getX());
+                command.put("Y", playerBiggest.getY());
+                return command;
+            }
+
+            if (mineBiggest.getMass() * 1.2 < playerBiggest.getMass()) {
+                GameObjectPoint point = Geometry.getOppositPoint(mineBiggest, playerBiggest);
+                command.put("X", point.getX());
+                command.put("Y", point.getY());
+
+            }
+        }
 
         if (foodList.size() > 0) {
             command = toNearestFood(foodList, mineList, command);
+
+
+            JSONObject sprite = new JSONObject();
+            sprite.put("id", mineList.get(0).getId());
+            sprite.put("s", "test message");
+            command.put("Sprite", sprite);
             return command;
         } else {
             command = toRandomPoint(mineList, command);
@@ -49,9 +76,22 @@ public class MoveEngine {
     }
 
 
-    private JSONObject toNearestFood(ArrayList<GameObjectFood> foodArrayList, ArrayList<GameObjectMine> mineArrayList, JSONObject command) {
-        GameObjectMine biggerMine = MineHelper.getBiggest(mineArrayList);
-        GameObject nearestFood = Geometry.nearestTo(foodArrayList, biggerMine);
+    private JSONObject toNearestFood(ArrayList<GameObjectFood> foodArrayList,
+                                     ArrayList<GameObjectMine> mineArrayList,
+                                     JSONObject command) {
+
+
+
+
+        GameObjectMine biggestMine = MineHelper.getBiggest(mineArrayList);
+
+        FoodHelper.cornerFoodFilter(foodArrayList, biggestMine);
+
+        GameObject nearestFood = Geometry.nearestTo(foodArrayList, biggestMine);
+
+//        List<GameObject> approvedFood = foodArrayList.stream().filter(FoodHelper::isRestrict).collect(Collectors.toList());
+
+
 
         command.put("X", nearestFood.getX());
         command.put("Y", nearestFood.getY());

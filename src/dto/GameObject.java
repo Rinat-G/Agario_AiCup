@@ -3,7 +3,7 @@ package dto;
 import java.lang.reflect.Field;
 
 public abstract class GameObject {
-    enum Type {Food, Ejection, Virus, Player, Mine}
+    enum Type {Food, Ejection, Virus, Player, Mine, Point}
 
     private final float x;
     private final float y;
@@ -29,27 +29,37 @@ public abstract class GameObject {
         return type;
     }
 
+//    public String toString() {
+//
+//        StringBuilder sb = new StringBuilder();
+//
+//        Class<? extends GameObject> clazz = this.getClass();
+//
+//        Field[] fields = clazz.getDeclaredFields();
+//        try {
+//
+//
+//            for (Field field :
+//                    fields) {
+//
+//                sb.append(field.getName()).append(field.get(this)).append("\n");
+//
+//            }
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        return sb.toString();
+//    }
+
+    @Override
     public String toString() {
-
-        StringBuilder sb = new StringBuilder();
-
-        Class<? extends GameObject> clazz = this.getClass();
-
-        Field[] fields = clazz.getDeclaredFields();
-        try {
-
-
-            for (Field field :
-                    fields) {
-
-                sb.append(field.getName()).append(field.get(this)).append("\n");
-
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-
+        final StringBuffer sb = new StringBuffer("GameObject{");
+        sb.append("x=").append(x);
+        sb.append(", y=").append(y);
+        sb.append(", type=").append(type);
+        sb.append('}');
         return sb.toString();
     }
 

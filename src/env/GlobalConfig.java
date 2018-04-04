@@ -1,6 +1,8 @@
+package env;
+
 import org.json.JSONObject;
 
-public final class GlobalConfig {
+public class GlobalConfig {
     //singleton
     private static GlobalConfig instance;
     private static JSONObject gameConfig;

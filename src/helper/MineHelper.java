@@ -25,4 +25,13 @@ public class MineHelper {
         return mine.getRadius() > Geometry.distance(mine, x, y);
 
     }
+
+    public static boolean isInOneTickRange(GameObjectMine mine, float x, float y){
+
+
+
+        return false;
+
+
+    }
 }

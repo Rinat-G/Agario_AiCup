@@ -1,3 +1,5 @@
+package env;
+
 import dto.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,16 +8,16 @@ import java.util.ArrayList;
 
 public class TickState {
 
+    private int tickNumber;
     private ArrayList<GameObjectMine> mineList;
-//    private ArrayList<GameObject> gameObjectList;
-
     private ArrayList<GameObjectFood> gameObjectFoodList;
     private ArrayList<GameObjectEjection> gameObjectEjectionList;
     private ArrayList<GameObjectVirus> gameObjectVirusList;
     private ArrayList<GameObjectPlayer> gameObjectPlayerList;
 
-    public TickState(JSONObject parsedTickState) {
+    public TickState(JSONObject parsedTickState ,int tickNumber) {
 
+        this.tickNumber = tickNumber;
         JSONArray mineJSONArray = parsedTickState.getJSONArray("Mine");
         JSONArray objects = parsedTickState.getJSONArray("Objects");
         mineList = new ArrayList<>();
@@ -90,6 +92,10 @@ public class TickState {
         }
 
 
+    }
+
+    public int getTickNumber() {
+        return tickNumber;
     }
 
     public ArrayList<GameObjectMine> getMineList() {

@@ -3,8 +3,8 @@ package dto;
 public class GameObjectVirus extends GameObject {
 
 
-    String  id;
-    float mass;
+    private String  id;
+    private float mass;
 
     public GameObjectVirus(float x, float y, String  id, float mass) {
         super(x, y, Type.Virus);
@@ -12,5 +12,11 @@ public class GameObjectVirus extends GameObject {
         this.mass = mass;
     }
 
-    
+    public String getId() {
+        return id;
+    }
+
+    public float getMass() {
+        return mass;
+    }
 }
