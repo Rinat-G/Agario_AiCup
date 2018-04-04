@@ -1,6 +1,6 @@
 package dto;
 
-public class GameObjectMine extends GameObject {
+public class Mine extends GameObject {
 
     private String id;
     private float radius;
@@ -10,7 +10,7 @@ public class GameObjectMine extends GameObject {
     //добавить TTF;
 
 
-    public GameObjectMine(String id, float x, float y, float radius, float mass, float sx, float sy) {
+    public Mine(String id, float x, float y, float radius, float mass, float sx, float sy) {
         super(x,y,Type.Mine);
         this.id = id;
         this.radius = radius;

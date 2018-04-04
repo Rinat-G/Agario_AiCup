@@ -1,14 +1,19 @@
 import java.io.*;
 
+import engine.MoveEngine;
+import engine.StrategyEngine;
+import engine.StrategyType;
 import env.GlobalConfig;
 import env.TickState;
 import org.json.*;
+import engine.ActionEngine;
 
 class Main {
 
 
-//    private static DebugLogger log = DebugLogger.getInstance();
+    //    private static DebugLogger log = DebugLogger.getInstance();
     private static MoveEngine moveEngine;
+    private static ActionEngine actionEngine;
 
     public static void main(String[] args) {
 
@@ -22,13 +27,16 @@ class Main {
 
 
             moveEngine = new MoveEngine();
+            actionEngine = new ActionEngine();
 
             int tick = 0;
             while ((line = in.readLine()) != null && line.length() != 0) {
                 tick++;
                 JSONObject tickStateJSON = new JSONObject(line);
                 JSONObject command = onTick(tickStateJSON, tick);
-                if (tick < 10){command.put("Debug",GlobalConfig.getInstance().toString() );}
+                if (tick < 10) {
+                    command.put("Debug", GlobalConfig.getInstance().toString());
+                }
                 System.out.println(command.toString());
             }
         } catch (IOException e) {
@@ -36,24 +44,54 @@ class Main {
         }
     }
 
-    public static JSONObject onTick(JSONObject tickStateJSON ,int tickNumber) {
+    public static JSONObject onTick(JSONObject tickStateJSON, int tickNumber) {
+
         TickState tickState = new TickState(tickStateJSON, tickNumber);
         JSONObject command = new JSONObject();
 
-        if (tickState.getMineList().size() > 0) {
-
-            command = moveEngine.doMove(tickState, command);
+        StrategyType strategyType = StrategyEngine.chooseStrategy(tickState);
 
 
-
-        } else {
-            command.put("X", 0);
-            command.put("Y", 0);
-            command.put("Debug", "Died");
-            //log.warning("getMineList().size() <= 0. DIED.");
+        switch (strategyType) {
+            case DIED:
+                command = StrategyEngine.doDied(tickState, command);
+                break;
+            case SEEKING:
+                command = StrategyEngine.doSeeking(tickState, command);
+                break;
+            case FEEDING:
+                command = StrategyEngine.doFeeding(tickState, command);
+                break;
+            case EVADING:
+                command = StrategyEngine.doEvading(tickState, command);
+                break;
+            case HUNTING:
+                command = StrategyEngine.doHunting(tickState, command);
+                break;
         }
-//        log.info(command.toString());
+
+
+//        if (tickState.getMineList().size() > 0) {
+//
+//
+//            command = moveEngine.doMove(tickState, command);
+//            command = actionEngine.doAction(tickState, command);
+//
+//
+//        } else {
+//            command.put("X", 0);
+//            command.put("Y", 0);
+//            command.put("Debug", "Died");
+//            //log.warning("getMineList().size() <= 0. DIED.");
+//        }
+
         return command;
+    }
+
+    public static JSONObject debugFieldAddStrategyType(JSONObject command, StrategyType strategyType){
+        return command;
+
+
     }
 
 

@@ -1,9 +1,8 @@
 package helper;
 
 
-import dto.GameObject;
-import dto.GameObjectFood;
-import dto.GameObjectMine;
+import dto.Food;
+import dto.Mine;
 import env.GlobalConfig;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 public class FoodHelper {
 
 
-//    public static boolean isRestrict(GameObjectFood food) {
+//    public static boolean isRestrict(Food food) {
 //        GlobalConfig gc = GlobalConfig.getInstance();
 //
 //
@@ -22,7 +21,7 @@ public class FoodHelper {
 //
 //        return
 //    }
-    public static void cornerFoodFilter(ArrayList<GameObjectFood> foodList, GameObjectMine biggestMine){
+    public static void cornerFoodFilter(ArrayList<Food> foodList, Mine biggestMine){
         float radius = biggestMine.getRadius();
         GlobalConfig gc = GlobalConfig.getInstance();
         foodList.removeIf(food -> (Math.abs(food.getX() - gc.getGAME_WIDTH()/2) > gc.getGAME_WIDTH()/2 - radius )

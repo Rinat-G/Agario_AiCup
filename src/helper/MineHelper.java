@@ -1,33 +1,48 @@
 package helper;
 
-import dto.GameObject;
-import dto.GameObjectMine;
+import dto.Mine;
 
 import java.util.ArrayList;
 
 public class MineHelper {
-    
-    public static GameObjectMine getBiggest(ArrayList<GameObjectMine> mineArrayList){
-        GameObjectMine tmpBiggestMine = mineArrayList.get(0);
 
-        for (GameObjectMine mine :
+    public static Mine getBiggest(ArrayList<Mine> mineArrayList) {
+        Mine tmpBiggestMine = mineArrayList.get(0);
+
+        for (Mine mine :
                 mineArrayList) {
 
-            if(mine.getMass() > tmpBiggestMine.getMass()){
+            if (mine.getMass() > tmpBiggestMine.getMass()) {
                 tmpBiggestMine = mine;
             }
         }
 
-        return  tmpBiggestMine;
-        
-    }
-    public static boolean isInRadius(GameObjectMine mine, float x, float y){
-        return mine.getRadius() > Geometry.distance(mine, x, y);
+        return tmpBiggestMine;
 
     }
 
-    public static boolean isInOneTickRange(GameObjectMine mine, float x, float y){
+    public static Mine getSmallest(ArrayList<Mine> mineArrayList) {
+        Mine tmpSmallestMine = mineArrayList.get(0);
 
+        for (Mine mine :
+                mineArrayList) {
+
+            if (mine.getMass() < tmpSmallestMine.getMass()) {
+                tmpSmallestMine = mine;
+            }
+        }
+
+        return tmpSmallestMine;
+
+    }
+
+
+    public static boolean isInRadius(Mine mine, float x, float y) {
+        return mine.getRadius() + 10 > Geometry.distance(mine, x, y);
+
+    }
+
+    public static boolean isInOneTickRange(Mine mine, float x, float y) {
 
 
         return false;

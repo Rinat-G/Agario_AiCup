@@ -1,4 +1,4 @@
-import dto.GameObjectMine;
+import dto.Mine;
 import env.GlobalConfig;
 import env.TickState;
 import org.json.JSONObject;
@@ -37,7 +37,7 @@ public class TempDummy {
             JSONObject tickStateJSON = new JSONObject(line);
             TickState tickState = new TickState(tickStateJSON, tick);
 
-            ArrayList<GameObjectMine> mine = tickState.getMineList();
+            ArrayList<Mine> mine = tickState.getMineList();
             System.out.println(mine);
 
 ////            ArrayList<GameObject> gameObjects = tickState.getGameObjectList();

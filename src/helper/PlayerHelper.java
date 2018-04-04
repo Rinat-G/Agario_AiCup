@@ -1,6 +1,7 @@
 package helper;
 
-import dto.GameObjectPlayer;
+import dto.Mine;
+import dto.Player;
 
 import java.util.ArrayList;
 
@@ -8,18 +9,38 @@ import java.util.ArrayList;
 public class PlayerHelper {
 
 
-    public static GameObjectPlayer getBiggest(ArrayList<GameObjectPlayer> playerArrayList){
-        GameObjectPlayer tmpBiggestPlayer = playerArrayList.get(0);
+    public static Player getBiggest(ArrayList<Player> playerArrayList) {
+        Player tmpBiggestPlayer = playerArrayList.get(0);
 
-        for (GameObjectPlayer player :
+        for (Player player :
                 playerArrayList) {
 
-            if(player.getMass() > tmpBiggestPlayer.getMass()){
+            if (player.getMass() > tmpBiggestPlayer.getMass()) {
                 tmpBiggestPlayer = player;
             }
         }
 
-        return  tmpBiggestPlayer;
+        return tmpBiggestPlayer;
+
+    }
+
+    /**
+     * smallest enemy that can eat this my fragment
+     */
+
+    public static Player dangerousPlayer(Mine mine, ArrayList<Player> playerArrayList) {
+        Player dangerousPlayer = PlayerHelper.getBiggest(playerArrayList);
+
+        for (Player thisPlayer :
+                playerArrayList) {
+
+            if (thisPlayer.getMass() < dangerousPlayer.getMass() && thisPlayer.getMass() > (mine.getMass() * 1.2)) {
+                dangerousPlayer = thisPlayer;
+            }
+
+        }
+
+        return dangerousPlayer;
 
     }
 }

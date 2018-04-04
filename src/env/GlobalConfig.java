@@ -92,29 +92,21 @@ public class GlobalConfig {
         return SPEED_FACTOR;
     }
 
+    @Override
     public String toString() {
-
-
-        return String.format(
-                "GAME_WIDTH %s %n" +
-                        "GAME_HEIGHT %s %n" +
-                        "GAME_TICKS %s %n" +
-                        "FOOD_MASS %s %n" +
-                        "MAX_FRAGS_CNT %s %n" +
-                        "TICKS_TIL_FUSION %s %n" +
-                        "VIRUS_RADIUS %s %n" +
-                        "VIRUS_SPLIT_MASS %s %n" +
-                        "VISCOSITY %s %n" +
-                        "INERTION_FACTOR %s",
-                this.GAME_WIDTH,
-                this.GAME_HEIGHT,
-                this.GAME_TICKS,
-                this.FOOD_MASS,
-                this.MAX_FRAGS_CNT,
-                this.TICKS_TIL_FUSION,
-                this.VIRUS_RADIUS,
-                this.VIRUS_SPLIT_MASS,
-                this.VISCOSITY,
-                this.INERTION_FACTOR);
+        final StringBuilder sb = new StringBuilder("GlobalConfig{");
+        sb.append("GAME_WIDTH=").append(GAME_WIDTH);
+        sb.append(", GAME_HEIGHT=").append(GAME_HEIGHT);
+        sb.append(", GAME_TICKS=").append(GAME_TICKS);
+        sb.append(", FOOD_MASS=").append(FOOD_MASS);
+        sb.append(", MAX_FRAGS_CNT=").append(MAX_FRAGS_CNT);
+        sb.append(", TICKS_TIL_FUSION=").append(TICKS_TIL_FUSION);
+        sb.append(", VIRUS_RADIUS=").append(VIRUS_RADIUS);
+        sb.append(", VIRUS_SPLIT_MASS=").append(VIRUS_SPLIT_MASS);
+        sb.append(", VISCOSITY=").append(VISCOSITY);
+        sb.append(", INERTION_FACTOR=").append(INERTION_FACTOR);
+        sb.append(", SPEED_FACTOR=").append(SPEED_FACTOR);
+        sb.append('}');
+        return sb.toString();
     }
 }

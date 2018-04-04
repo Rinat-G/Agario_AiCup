@@ -1,12 +1,12 @@
 package dto;
 
-public class GameObjectVirus extends GameObject {
+public class Virus extends GameObject {
 
 
     private String  id;
     private float mass;
 
-    public GameObjectVirus(float x, float y, String  id, float mass) {
+    public Virus(float x, float y, String  id, float mass) {
         super(x, y, Type.Virus);
         this.id = id;
         this.mass = mass;

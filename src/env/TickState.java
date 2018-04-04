@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class TickState {
 
     private int tickNumber;
-    private ArrayList<GameObjectMine> mineList;
-    private ArrayList<GameObjectFood> gameObjectFoodList;
-    private ArrayList<GameObjectEjection> gameObjectEjectionList;
-    private ArrayList<GameObjectVirus> gameObjectVirusList;
-    private ArrayList<GameObjectPlayer> gameObjectPlayerList;
+    private ArrayList<Mine> mineList;
+    private ArrayList<Food> foodList;
+    private ArrayList<Ejection> ejectionList;
+    private ArrayList<Virus> virusList;
+    private ArrayList<Player> playerList;
 
     public TickState(JSONObject parsedTickState ,int tickNumber) {
 
@@ -22,15 +22,15 @@ public class TickState {
         JSONArray objects = parsedTickState.getJSONArray("Objects");
         mineList = new ArrayList<>();
 //        gameObjectList = new ArrayList<>();
-        gameObjectFoodList = new ArrayList<>();
-        gameObjectEjectionList = new ArrayList<>();
-        gameObjectVirusList = new ArrayList<>();
-        gameObjectPlayerList = new ArrayList<>();
+        foodList = new ArrayList<>();
+        ejectionList = new ArrayList<>();
+        virusList = new ArrayList<>();
+        playerList = new ArrayList<>();
 
 
         for (int i = 0; i < mineJSONArray.length(); i++) {
             JSONObject mineJSONObject = mineJSONArray.getJSONObject(i);
-            GameObjectMine mineDTO = new GameObjectMine(
+            Mine mineDTO = new Mine(
                     mineJSONObject.getString("Id"),
                     mineJSONObject.getFloat("X"),
                     mineJSONObject.getFloat("Y"),
@@ -48,24 +48,24 @@ public class TickState {
 
             switch (objectJSONObject.getString("T")) {
                 case "F":
-                    gameObjectFoodList.add(
-                            new GameObjectFood(
+                    foodList.add(
+                            new Food(
                                     objectJSONObject.getFloat("X"),
                                     objectJSONObject.getFloat("Y")
                             )
                     );
                     break;
                 case "E":
-                    gameObjectEjectionList.add(
-                            new GameObjectEjection(
+                    ejectionList.add(
+                            new Ejection(
                                     objectJSONObject.getFloat("X"),
                                     objectJSONObject.getFloat("Y")
                             )
                     );
                     break;
                 case "V":
-                    gameObjectVirusList.add(
-                            new GameObjectVirus(
+                    virusList.add(
+                            new Virus(
                                     objectJSONObject.getFloat("X"),
                                     objectJSONObject.getFloat("Y"),
                                     objectJSONObject.getString("Id"),
@@ -74,8 +74,8 @@ public class TickState {
                     );
                     break;
                 case "P":
-                    gameObjectPlayerList.add(
-                            new GameObjectPlayer(
+                    playerList.add(
+                            new Player(
                                     objectJSONObject.getFloat("X"),
                                     objectJSONObject.getFloat("Y"),
                                     objectJSONObject.getString("Id"),
@@ -98,24 +98,24 @@ public class TickState {
         return tickNumber;
     }
 
-    public ArrayList<GameObjectMine> getMineList() {
+    public ArrayList<Mine> getMineList() {
         return mineList;
     }
 
 
-    public ArrayList<GameObjectFood> getGameObjectFoodList() {
-        return gameObjectFoodList;
+    public ArrayList<Food> getFoodList() {
+        return foodList;
     }
 
-    public ArrayList<GameObjectEjection> getGameObjectEjectionList() {
-        return gameObjectEjectionList;
+    public ArrayList<Ejection> getEjectionList() {
+        return ejectionList;
     }
 
-    public ArrayList<GameObjectVirus> getGameObjectVirusList() {
-        return gameObjectVirusList;
+    public ArrayList<Virus> getVirusList() {
+        return virusList;
     }
 
-    public ArrayList<GameObjectPlayer> getGameObjectPlayerList() {
-        return gameObjectPlayerList;
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
     }
 }
