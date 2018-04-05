@@ -1,11 +1,8 @@
 package engine;
 
 import dto.*;
-import env.TickState;
-import helper.FoodHelper;
 import helper.Geometry;
 import helper.MineHelper;
-import helper.PlayerHelper;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -35,50 +32,6 @@ public class MoveEngine {
     }
 
 
-//    public JSONObject doMove(TickState tickState, JSONObject command) {
-//
-//        ArrayList<Mine> mineList = tickState.getMineList();
-//        ArrayList<Food> foodList = tickState.getFoodList();
-//        ArrayList<Player> playerList = tickState.getPlayerList();
-//
-//        if (playerList.size() > 0) {
-//            Mine mineBiggest = MineHelper.getBiggest(mineList);
-//
-//            Player playerBiggest = PlayerHelper.getBiggest(playerList);
-//
-//
-//            if (mineBiggest.getMass() > playerBiggest.getMass() * 1.2) {
-//                command.put("X", playerBiggest.getX());
-//                command.put("Y", playerBiggest.getY());
-//                return command;
-//            }
-//
-//            if (mineBiggest.getMass() * 1.2 < playerBiggest.getMass()) {
-//
-//                Point point = Geometry.getOppositePoint(mineBiggest, playerBiggest);
-//                command.put("X", point.getX());
-//                command.put("Y", point.getY());
-//                return command;
-//
-//            }
-//        }
-//
-//        if (foodList.size() > 0) {
-//            command = toNearestFood(foodList, mineList, command);
-//
-//
-//            JSONObject sprite = new JSONObject();
-//            sprite.put("id", mineList.get(0).getId());
-//            sprite.put("s", "test message");
-//            command.put("Sprite", sprite);
-//            return command;
-//        } else {
-//            command = toRandomPoint(mineList, command);
-//        }
-//
-//        return command;
-//
-//    }
 
 
     public static JSONObject toNearestFood(ArrayList<Food> foodArrayList,
@@ -92,7 +45,6 @@ public class MoveEngine {
 
         GameObject nearestFood = Geometry.nearestTo(foodArrayList, biggestMine);
 
-//        List<GameObject> approvedFood = foodArrayList.stream().filter(FoodHelper::isRestrict).collect(Collectors.toList());
 
 
         command.put("X", nearestFood.getX());

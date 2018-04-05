@@ -11,16 +11,6 @@ import java.util.ArrayList;
 public class FoodHelper {
 
 
-//    public static boolean isRestrict(Food food) {
-//        GlobalConfig gc = GlobalConfig.getInstance();
-//
-//
-//        if (Math.abs(food.getX() - gc.getGAME_HEIGHT()) > gc.getGAME_HEIGHT() - ) {
-//
-//        }
-//
-//        return
-//    }
     public static void cornerFoodFilter(ArrayList<Food> foodList, Mine biggestMine){
         float radius = biggestMine.getRadius();
         GlobalConfig gc = GlobalConfig.getInstance();

@@ -1,10 +1,7 @@
 package helper;
 
 
-import dto.GameObject;
-import dto.Mine;
-import dto.Player;
-import dto.Point;
+import dto.*;
 import env.GlobalConfig;
 
 import java.util.ArrayList;
@@ -57,8 +54,6 @@ public class Geometry {
     }
 
 
-
-
     public static Point getOppositePoint(GameObject source, GameObject target) {
         float x = source.getX() * 2 - target.getX();
         float y = source.getY() * 2 - target.getY();
@@ -66,12 +61,11 @@ public class Geometry {
     }
 
     /**
-     *
      * Returns two closest shards from Mine and other Player.
      *
      * @param mineList
      * @param enemyList
-     * @return  HashMap<String, GameObject> with 2 entry  where String  key is "Mine" or "Enemy".
+     * @return HashMap<String, GameObject> with 2 entry  where String  key is "Mine" or "Enemy".
      */
 
 
@@ -83,7 +77,7 @@ public class Geometry {
 
         for (Mine aMine : mineList) {
             for (Player anEnemy : enemyList) {
-                double squareDistance =squareDistance(aMine, anEnemy);
+                double squareDistance = squareDistance(aMine, anEnemy);
                 if (squareDistance < squareDistanceMin) {
                     squareDistanceMin = squareDistance;
                     closestMine = aMine;
@@ -98,10 +92,33 @@ public class Geometry {
         HashMap<String, GameObject> closestMineAndEnemyShards = new HashMap<>();
         closestMineAndEnemyShards.put("Mine", closestMine);
         closestMineAndEnemyShards.put("Enemy", closestEnemy);
-        return  closestMineAndEnemyShards;
+        return closestMineAndEnemyShards;
 
 
     }
+
+    public static boolean isCodirected(Vector vector1, Vector vector2) {
+        return isCollinear(vector1, vector2) && scalarMultiplication(vector1, vector2) > 0;
+    }
+
+    public static boolean isCollinear(Vector vector1, Vector vector2) {
+        return vector1.getX() / vector2.getX() == vector1.getY() / vector2.getY();
+    }
+
+    public static double scalarMultiplication(Vector vector1, Vector vector2) {
+        return (vector1.getX() * vector2.getX()) + (vector1.getY() * vector2.getY());
+
+    }
+
+    public static double cosVectors(Vector vector1, Vector vector2){
+
+        return scalarMultiplication(vector1, vector2) / (vectorModule(vector1) * vectorModule(vector2));
+    }
+
+    public  static  double vectorModule(Vector vector){
+        return  Math.sqrt((Math.pow(vector.getX(), 2) + Math.pow(vector.getY(), 2)));
+    }
+
 
 
 }

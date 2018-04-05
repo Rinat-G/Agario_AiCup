@@ -11,7 +11,6 @@ import engine.ActionEngine;
 class Main {
 
 
-    //    private static DebugLogger log = DebugLogger.getInstance();
     private static MoveEngine moveEngine;
     private static ActionEngine actionEngine;
 
@@ -46,6 +45,8 @@ class Main {
 
     public static JSONObject onTick(JSONObject tickStateJSON, int tickNumber) {
 
+        StrategyEngine.splitBlockFactorDecrement();
+
         TickState tickState = new TickState(tickStateJSON, tickNumber);
         JSONObject command = new JSONObject();
 
@@ -71,27 +72,7 @@ class Main {
         }
 
 
-//        if (tickState.getMineList().size() > 0) {
-//
-//
-//            command = moveEngine.doMove(tickState, command);
-//            command = actionEngine.doAction(tickState, command);
-//
-//
-//        } else {
-//            command.put("X", 0);
-//            command.put("Y", 0);
-//            command.put("Debug", "Died");
-//            //log.warning("getMineList().size() <= 0. DIED.");
-//        }
-
         return command;
-    }
-
-    public static JSONObject debugFieldAddStrategyType(JSONObject command, StrategyType strategyType){
-        return command;
-
-
     }
 
 

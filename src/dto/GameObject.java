@@ -1,6 +1,5 @@
 package dto;
 
-import java.lang.reflect.Field;
 
 public abstract class GameObject {
     enum Type {Food, Ejection, Virus, Player, Mine, Point}
@@ -29,33 +28,10 @@ public abstract class GameObject {
         return type;
     }
 
-//    public String toString() {
-//
-//        StringBuilder sb = new StringBuilder();
-//
-//        Class<? extends GameObject> clazz = this.getClass();
-//
-//        Field[] fields = clazz.getDeclaredFields();
-//        try {
-//
-//
-//            for (Field field :
-//                    fields) {
-//
-//                sb.append(field.getName()).append(field.get(this)).append("\n");
-//
-//            }
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        return sb.toString();
-//    }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("GameObject{");
+        final StringBuilder sb = new StringBuilder("GameObject{");
         sb.append("x=").append(x);
         sb.append(", y=").append(y);
         sb.append(", type=").append(type);
@@ -64,12 +40,4 @@ public abstract class GameObject {
     }
 
 
-//    @Override
-//    public String toString() {
-//        return "GameObject{" +
-//                "x=" + x +
-//                ", y=" + y +
-//                ", type=" + type +
-//                '}';
-//    }
 }

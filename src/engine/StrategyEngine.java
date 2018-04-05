@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 public class StrategyEngine {
 
+    private static int splitBlockFactor = 0;
+
 
     public static StrategyType chooseStrategy(TickState tickState) {
 
@@ -27,6 +29,8 @@ public class StrategyEngine {
 
         if (playerList.size() > 0) {
 
+            splitBlock(100);
+
             Mine mineSmallest = MineHelper.getSmallest(mineList);
             Player playerBiggest = PlayerHelper.getBiggest(playerList);
 
@@ -35,7 +39,7 @@ public class StrategyEngine {
                 return StrategyType.HUNTING;
             }
 
-            if (mineSmallest.getMass() * 1.2 < playerBiggest.getMass()) {
+            if (mineSmallest.getMass() * 1.1 < playerBiggest.getMass()) {
 
                 return StrategyType.EVADING;
 
@@ -64,11 +68,20 @@ public class StrategyEngine {
 
     public static JSONObject doSeeking(TickState tickState, JSONObject command) {
         command.put("Debug", "SEEKING");
+        if (MineHelper.getBiggest(tickState.getMineList()).getMass() > 120 && !isSplitBlocked()) {
+            command.put("Split", true);
+            command.put("Debug", command.getString("Debug") + " Safe split!");
+        }
         return MoveEngine.toRandomPoint(tickState.getMineList(), command);
     }
 
     public static JSONObject doFeeding(TickState tickState, JSONObject command) {
         command.put("Debug", "FEEDING");
+        if (MineHelper.getBiggest(tickState.getMineList()).getMass() > 120 && !isSplitBlocked()) {
+            command.put("Split", true);
+            command.put("Debug", command.getString("Debug") + " Safe split!");
+        }
+
         return MoveEngine.toNearestFood(tickState.getFoodList(), tickState.getMineList(), command);
     }
 
@@ -109,20 +122,40 @@ public class StrategyEngine {
 
         if (playerBiggest.getMass() * 2.5 < mineSmallest.getMass() && distanceToEnemy < splitFlightDistance) {
 
-            //&& мое направление совпадает с ближайшим врагом
-            long roundedSpeedTheta = Math.round(Math.atan2(myShardClosestToEnemy.getSx(), myShardClosestToEnemy.getSy()));
+            Vector mySpeedVector = new Vector(myShardClosestToEnemy.getSx(), myShardClosestToEnemy.getSy());
 
-            long roundedToEnemyTheta = Math.round(Math.atan2(
-                    (enemyShardClosestToMe.getX() - myShardClosestToEnemy.getX()),
-                    (enemyShardClosestToMe.getY() - myShardClosestToEnemy.getY()))
+            Vector toClosestEnemyVector = new Vector(
+                    enemyShardClosestToMe.getX() - myShardClosestToEnemy.getX(),
+                    enemyShardClosestToMe.getY() - myShardClosestToEnemy.getY()
             );
-            if (roundedSpeedTheta == roundedToEnemyTheta){
-                command.put("Split", true);
 
+            //косинус угла между вектором моей скорости и вектором к ближайшему противнику >0.98
+            if(Geometry.cosVectors(mySpeedVector, toClosestEnemyVector) > 0.98d){
+                command.put("Split", true);
+                command.put("Debug", command.getString("Debug") + " Attack split!");
             }
+
+
+
+
         }
         command.put("X", playerBiggest.getX());
         command.put("Y", playerBiggest.getY());
         return command;
+    }
+
+
+    public static void splitBlock(int ticks) {
+        splitBlockFactor = ticks;
+    }
+
+    public static boolean isSplitBlocked() {
+        return splitBlockFactor != 0;
+    }
+
+    public static void splitBlockFactorDecrement() {
+        if (splitBlockFactor > 0) {
+            splitBlockFactor--;
+        }
     }
 }
