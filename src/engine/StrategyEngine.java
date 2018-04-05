@@ -29,21 +29,38 @@ public class StrategyEngine {
 
         if (playerList.size() > 0) {
 
-            splitBlock(100);
+            splitBlock(200);
 
-            Mine mineSmallest = MineHelper.getSmallest(mineList);
-            Player playerBiggest = PlayerHelper.getBiggest(playerList);
+            double mineAverageMass = MineHelper.mineAverageMass(mineList);
+            double enemyAverageMass = PlayerHelper.playerAverageMass(playerList);
+            double mineSummaryMass = MineHelper.mineSummaryMass(mineList);
+            double playerSummaryMass = PlayerHelper.playerSummaryMass(playerList);
 
-            if (mineSmallest.getMass() > playerBiggest.getMass() * 1.2) {
-
+            //если моя средняя масса больше чем средняя масса врага *1.2 (и общая масса больше) - нападение
+            if (mineAverageMass > (enemyAverageMass * 1.2) && mineSummaryMass > playerSummaryMass) {
                 return StrategyType.HUNTING;
             }
 
-            if (mineSmallest.getMass() * 1.1 < playerBiggest.getMass()) {
-
+            //если моя средняя масса *1.1 меньше чем средняя масса врага - побег
+            if (mineAverageMass * 1.1 < enemyAverageMass) {
                 return StrategyType.EVADING;
-
             }
+
+
+//             НЕ УДАЛЯТЬ! БЕКАП РАБОЧЕЙ СХЕМЫ !!!
+//            Mine mineSmallest = MineHelper.getSmallest(mineList);
+//            Player playerBiggest = PlayerHelper.getBiggest(playerList);
+//
+//            if (mineSmallest.getMass() > playerBiggest.getMass() * 1.2) {
+//
+//                return StrategyType.HUNTING;
+//            }
+//
+//            if (mineSmallest.getMass() * 1.1 < playerBiggest.getMass()) {
+//
+//                return StrategyType.EVADING;
+//
+//            }
         }
 
         Mine biggestMine = MineHelper.getBiggest(mineList);
@@ -130,12 +147,10 @@ public class StrategyEngine {
             );
 
             //косинус угла между вектором моей скорости и вектором к ближайшему противнику >0.98
-            if(Geometry.cosVectors(mySpeedVector, toClosestEnemyVector) > 0.98d){
+            if (Geometry.cosVectors(mySpeedVector, toClosestEnemyVector) > 0.98d) {
                 command.put("Split", true);
                 command.put("Debug", command.getString("Debug") + " Attack split!");
             }
-
-
 
 
         }

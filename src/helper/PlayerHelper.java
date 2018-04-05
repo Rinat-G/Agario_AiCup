@@ -43,4 +43,16 @@ public class PlayerHelper {
         return dangerousPlayer;
 
     }
+
+    public static double playerSummaryMass(ArrayList<Player> playerList){
+        return playerList.stream().mapToDouble(Player::getMass).sum();
+    }
+
+    public static double playerAverageMass(ArrayList<Player> playerList){
+
+        double mass =  playerSummaryMass(playerList);
+        return mass / playerList.size();
+    }
+
+
 }

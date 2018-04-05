@@ -49,4 +49,14 @@ public class MineHelper {
 
 
     }
+
+    public static double mineSummaryMass(ArrayList<Mine> mineList){
+        return mineList.stream().mapToDouble(Mine::getMass).sum();
+    }
+
+    public static double mineAverageMass(ArrayList<Mine> mineList){
+
+        double mass = mineSummaryMass(mineList);
+        return mass / mineList.size();
+    }
 }
