@@ -1,6 +1,8 @@
 package helper;
 
+import dto.HasMass;
 import dto.Mine;
+import dto.Player;
 import env.GlobalConfig;
 
 public class Physics {
@@ -28,6 +30,11 @@ public class Physics {
         return (float) ((viscosity * Math.pow(flightTime, 2)) / 2) + (ejectSpeed * flightTime);
 
     }
+    public static double maxSpeed(HasMass object){
+        return GlobalConfig.getInstance().getSPEED_FACTOR()/ Math.sqrt(object.getMass());
+    }
+
+
 
 
 }

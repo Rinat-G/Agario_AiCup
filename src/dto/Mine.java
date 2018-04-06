@@ -1,6 +1,6 @@
 package dto;
 
-public class Mine extends GameObject {
+public class Mine extends GameObject implements HasMass {
 
     private String id;
     private float radius;

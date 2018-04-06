@@ -1,6 +1,6 @@
 package dto;
 
-public class Player extends  GameObject{
+public class Player extends  GameObject implements HasMass {
     private String id;
     private float mass;
     private float radius;

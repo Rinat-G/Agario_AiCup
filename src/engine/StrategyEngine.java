@@ -100,19 +100,62 @@ public class StrategyEngine {
         }
 
         return MoveEngine.toNearestFood(tickState.getFoodList(), tickState.getMineList(), command);
+//        return MoveEngine.toRandomPoint(tickState.getMineList(), command);
+
     }
 
     public static JSONObject doEvading(TickState tickState, JSONObject command) {
         command.put("Debug", "EVADING");
+        ArrayList<Mine> mineList = tickState.getMineList();
+        ArrayList<Player> enemyList = tickState.getPlayerList();
 
         Mine mineSmallest = MineHelper.getSmallest(tickState.getMineList());
+        Mine mineBiggest = MineHelper.getBiggest(tickState.getMineList());
 
         Player dangerousPlayer = PlayerHelper.dangerousPlayer(mineSmallest, tickState.getPlayerList());
 
-        Mine mineBiggest = MineHelper.getBiggest(tickState.getMineList());
-        Point point = Geometry.getOppositePoint(mineBiggest, dangerousPlayer);
-        command.put("X", point.getX());
-        command.put("Y", point.getY());
+        //я у угла?
+        //////противник в углу глубже меня? - бегу как обычно
+        //////противник в углу, но в стороне от меня? бегу в ту сторону, где у него меньше координата
+        ////// противник зажимает в угол? бежать в сторону от меньшей проекции его координаты на мои оси.
+        //я у стены Y ? -> Х остается текущим, а Y в сторону побега
+        //я у стены X ? -> Y остается текущим, а Х в сторону побег
+
+        if (Geometry.isInCorner(mineList)) {
+            if (Geometry.isInCorner(enemyList)) {
+
+                if (Geometry.borderYDeviation(dangerousPlayer) + Geometry.borderXDeviation(dangerousPlayer) <
+                        Geometry.borderYDeviation(mineBiggest) + Geometry.borderXDeviation(mineBiggest)) { //противник глубже в углу чем я
+
+                    command = MoveEngine.standardRunAway(mineBiggest, dangerousPlayer, command);
+                    return command;
+                }
+                return MoveEngine.cornerRunAway(mineBiggest, dangerousPlayer, command);
+
+
+
+            }
+            return MoveEngine.cornerRunAway(mineBiggest, dangerousPlayer, command);
+
+
+
+        }
+
+        if (Geometry.isNearYWall(mineList)) {
+            if (Geometry.borderYDeviation(enemyList) > Geometry.borderYDeviation(mineList)) {
+                return MoveEngine.runAwayYWall(mineBiggest, dangerousPlayer, command);
+            }
+
+        }
+
+        if (Geometry.isNearXWall(mineList)) {
+            if (Geometry.borderXDeviation(enemyList) > Geometry.borderXDeviation(mineList)) {
+                return MoveEngine.runAwayXWall(mineBiggest, dangerousPlayer, command);
+            }
+        }
+
+
+        command = MoveEngine.standardRunAway(mineBiggest, dangerousPlayer, command);
         return command;
 
 
